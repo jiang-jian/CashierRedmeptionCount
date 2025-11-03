@@ -5,10 +5,13 @@ import '../controllers/device_setup_controller.dart';
 import '../../../data/services/sunmi_printer_service.dart';
 import '../widgets/device_setup_layout.dart';
 import '../widgets/printer_status_display.dart';
+import '../widgets/external_printer_panel.dart';
 
-/// 打印机设置页面 - 重新设计布局
-/// 左侧：操作提示和状态
-/// 右侧：调试日志
+/// 打印机设置页面 - 四区域布局
+/// 左侧（20%）：操作提示
+/// 中左（35%）：内置打印机状态和测试
+/// 中右（25%）：外接打印机设备
+/// 右侧（20%）：调试日志
 class PrinterSetupPage extends GetView<DeviceSetupController> {
   const PrinterSetupPage({super.key});
 
@@ -25,30 +28,38 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
     );
   }
 
-  /// 主内容区域 - 三栏布局
+  /// 主内容区域 - 四区域布局
   Widget _buildMainContent() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 左侧：操作提示区域（25%宽度）
+        // 左侧：操作提示区域（20%宽度）
         Expanded(
-          flex: 25,
+          flex: 20,
           child: _buildInstructionsPanel(),
         ),
         
-        SizedBox(width: 16.w),
+        SizedBox(width: 12.w),
         
-        // 中间：打印机状态检测和测试区域（45%宽度）
+        // 中左：内置打印机状态检测和测试区域（35%宽度）
         Expanded(
-          flex: 45,
+          flex: 35,
           child: _buildCenterPanel(),
         ),
         
-        SizedBox(width: 16.w),
+        SizedBox(width: 12.w),
         
-        // 右侧：调试日志区域（30%宽度）
+        // 中右：外接打印机区域（25%宽度）
         Expanded(
-          flex: 30,
+          flex: 25,
+          child: const ExternalPrinterPanel(),
+        ),
+        
+        SizedBox(width: 12.w),
+        
+        // 右侧：调试日志区域（20%宽度）
+        Expanded(
+          flex: 20,
           child: _buildDebugLogPanel(),
         ),
       ],

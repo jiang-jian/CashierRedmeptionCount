@@ -21,5 +21,8 @@ class MainActivity : FlutterActivity() {
         
         // 注册 Sunmi Customer API Plugin
         flutterEngine.plugins.add(SunmiCustomerApiPlugin())
+        
+        // 注册 USB Printer Plugin
+        flutterEngine.plugins.add(UsbPrinterPlugin())
     }
 }

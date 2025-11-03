@@ -1,0 +1,18 @@
+# This is a generated file; do not edit or check into version control.
+android_intent_plus=/home/sandbox/.pub-cache/hosted/pub.dev/android_intent_plus-5.3.1/
+connectivity_plus=/home/sandbox/.pub-cache/hosted/pub.dev/connectivity_plus-6.1.5/
+nfc_manager=/home/sandbox/.pub-cache/hosted/pub.dev/nfc_manager-3.5.0/
+path_provider_linux=/home/sandbox/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+path_provider_windows=/home/sandbox/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+screen_retriever=/home/sandbox/.pub-cache/hosted/pub.dev/screen_retriever-0.2.0/
+screen_retriever_linux=/home/sandbox/.pub-cache/hosted/pub.dev/screen_retriever_linux-0.2.0/
+screen_retriever_macos=/home/sandbox/.pub-cache/hosted/pub.dev/screen_retriever_macos-0.2.0/
+screen_retriever_windows=/home/sandbox/.pub-cache/hosted/pub.dev/screen_retriever_windows-0.2.0/
+shared_preferences=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences-2.5.3/
+shared_preferences_android=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.13/
+shared_preferences_foundation=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences_foundation-2.5.4/
+shared_preferences_linux=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1/
+shared_preferences_web=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences_web-2.4.3/
+shared_preferences_windows=/home/sandbox/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1/
+sunmi_flutter_plugin_printer=/home/sandbox/.pub-cache/hosted/pub.dev/sunmi_flutter_plugin_printer-1.0.7+7/
+window_manager=/home/sandbox/.pub-cache/hosted/pub.dev/window_manager-0.4.3/

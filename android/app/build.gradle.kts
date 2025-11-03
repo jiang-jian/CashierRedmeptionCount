@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.holox.ailand_pos"
-    compileSdk = 36  // 升级以满足插件要求（向后兼容）
+    compileSdk = 34  // Android 14
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -25,7 +25,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 28  // Android 9 (Pie) - 兼容要求
-        targetSdk = 36
+        targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

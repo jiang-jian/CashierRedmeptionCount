@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- USB打印机设备过滤器 -->
+    
+    <!-- 打印机类设备 (class 7) -->
+    <usb-device class="7" />
+    
+    <!-- 常见打印机厂商 VID -->
+    
+    <!-- Epson -->
+    <usb-device vendor-id="1208" />
+    
+    <!-- HP -->
+    <usb-device vendor-id="1008" />
+    
+    <!-- Canon -->
+    <usb-device vendor-id="1193" />
+    
+    <!-- Brother -->
+    <usb-device vendor-id="1273" />
+    
+    <!-- Samsung -->
+    <usb-device vendor-id="1256" />
+    
+    <!-- Zebra -->
+    <usb-device vendor-id="2655" />
+    
+    <!-- Star Micronics -->
+    <usb-device vendor-id="1305" />
+    
+    <!-- Generic USB-Serial -->
+    <usb-device vendor-id="1155" />
+    
+    <!-- QinHeng Electronics (CH340/CH341) -->
+    <usb-device vendor-id="6790" />
+</resources>
