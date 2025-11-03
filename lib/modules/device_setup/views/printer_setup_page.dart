@@ -25,48 +25,61 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
     );
   }
 
-  /// 主内容区域 - 左右分栏布局
+  /// 主内容区域 - 三栏布局
   Widget _buildMainContent() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 左侧：操作区域（40%宽度）
+        // 左侧：操作提示区域（25%宽度）
         Expanded(
-          flex: 4,
-          child: _buildLeftPanel(),
+          flex: 25,
+          child: _buildInstructionsPanel(),
         ),
         
-        SizedBox(width: 24.w),
+        SizedBox(width: 16.w),
         
-        // 右侧：调试日志（60%宽度）
+        // 中间：打印机状态检测和测试区域（45%宽度）
         Expanded(
-          flex: 6,
+          flex: 45,
+          child: _buildCenterPanel(),
+        ),
+        
+        SizedBox(width: 16.w),
+        
+        // 右侧：调试日志区域（30%宽度）
+        Expanded(
+          flex: 30,
           child: _buildDebugLogPanel(),
         ),
       ],
     );
   }
 
-  /// 左侧面板：操作提示 + 状态 + 按钮
-  Widget _buildLeftPanel() {
+  /// 左侧面板：操作提示
+  Widget _buildInstructionsPanel() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInstructions(),
+      ],
+    );
+  }
+
+  /// 中间面板：打印机状态检测和测试区域
+  Widget _buildCenterPanel() {
     final printerService = Get.find<SunmiPrinterService>();
     final checkStatus = controller.printerCheckStatus.value;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 操作提示（左侧，紧凑版）
-        _buildInstructions(),
-        
-        SizedBox(height: 12.h),
-        
-        // 打印机状态（紧凑版）
+        // 打印机状态显示
         PrinterStatusDisplay(
           statusInfo: printerService.printerStatus.value,
           isChecking: checkStatus == 'checking',
         ),
         
-        SizedBox(height: 12.h),
+        SizedBox(height: 16.h),
         
         // 操作按钮
         _buildActionButtons(),
@@ -74,12 +87,12 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
     );
   }
 
-  /// 右侧面板：调试日志（紧凑版）
+  /// 右侧面板：调试日志
   Widget _buildDebugLogPanel() {
     final printerService = Get.find<SunmiPrinterService>();
 
     return Container(
-      height: 420.h,
+      height: 420.h, // 与左侧面板保持相同高度
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E1E),
         borderRadius: BorderRadius.circular(12.r),
@@ -217,81 +230,128 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
     );
   }
 
-  /// 操作提示（紧凑版，左侧显示）
+  /// 操作提示（左侧独立面板）
   Widget _buildInstructions() {
     return Container(
-      padding: EdgeInsets.all(12.w),
+      height: 420.h, // 与右侧日志区域保持相同高度
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF0F7FF),
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: const Color(0xFF1890FF).withValues(alpha: 0.2)),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFF1890FF).withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 标题
           Row(
             children: [
               Icon(
                 Icons.lightbulb_outline,
-                size: 14.sp,
+                size: 18.sp,
                 color: const Color(0xFF1890FF),
               ),
-              SizedBox(width: 6.w),
+              SizedBox(width: 8.w),
               Text(
                 '操作提示',
                 style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1890FF),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 6.h),
+          SizedBox(height: 20.h),
+          
+          // 操作步骤
           _buildInstructionItem('1', '自动检测打印机状态'),
+          SizedBox(height: 12.h),
           _buildInstructionItem('2', '状态正常后点击测试打印'),
+          SizedBox(height: 12.h),
           _buildInstructionItem('3', '右侧日志显示SDK调用详情'),
+          
+          SizedBox(height: 24.h),
+          
+          // 注意事项
+          Container(
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF9E6),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: const Color(0xFFF39C12).withValues(alpha: 0.3)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: 16.sp,
+                      color: const Color(0xFFF39C12),
+                    ),
+                    SizedBox(width: 6.w),
+                    Text(
+                      '注意事项',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFF39C12),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  '• 确保打印机已连接电源\n• 检查打印纸是否装好\n• 测试成功后可进行下一步',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: const Color(0xFF666666),
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildInstructionItem(String number, String text) {
-    return Padding(
-      padding: EdgeInsets.only(top: 4.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 16.w,
-            height: 16.h,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1890FF),
-              shape: BoxShape.circle,
-            ),
-            child: Text(
-              number,
-              style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 20.w,
+          height: 20.h,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFF1890FF),
+            shape: BoxShape.circle,
+          ),
+          child: Text(
+            number,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
-          SizedBox(width: 6.w),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: const Color(0xFF333333),
-                height: 1.3,
-              ),
+        ),
+        SizedBox(width: 10.w),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: const Color(0xFF333333),
+              height: 1.4,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -304,28 +364,29 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
 
     return Column(
       children: [
-        // 重新检测按钮（紧凑版）
+        // 重新检测按钮
         if (checkStatus == 'error' || checkStatus == 'warning' || checkStatus == 'ready')
           Container(
-            margin: EdgeInsets.only(bottom: 8.h),
+            margin: EdgeInsets.only(bottom: 12.h),
             width: double.infinity,
+            height: 48.h, // 增加按钮高度
             child: OutlinedButton.icon(
               onPressed: checkStatus == 'checking' ? null : controller.checkPrinterStatus,
-              icon: Icon(Icons.refresh, size: 16.sp),
+              icon: Icon(Icons.refresh, size: 18.sp),
               label: Text(
                 '重新检测',
                 style: TextStyle(
-                  fontSize: 13.sp,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               style: OutlinedButton.styleFrom(
-                minimumSize: Size(double.infinity, 40.h),
                 foregroundColor: const Color(0xFF1890FF),
-                side: const BorderSide(color: Color(0xFF1890FF)),
+                side: const BorderSide(color: Color(0xFF1890FF), width: 1.5),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               ),
             ),
           ),
@@ -333,25 +394,25 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
         // 测试打印按钮（只有打印机正常时才开放）
         SizedBox(
           width: double.infinity,
-          height: 44.h,
+          height: 52.h, // 增加按钮高度
           child: ElevatedButton.icon(
             onPressed: isPrinterReady && !isTesting
                 ? controller.testPrintReceipt
                 : null,
             icon: isTesting
                 ? SizedBox(
-                    width: 16.w,
-                    height: 16.h,
+                    width: 18.w,
+                    height: 18.h,
                     child: const CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : Icon(Icons.print, size: 18.sp),
+                : Icon(Icons.print, size: 20.sp),
             label: Text(
               isTesting ? '正在打印...' : '测试打印',
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -363,6 +424,7 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
               elevation: 0,
             ),
           ),
@@ -489,7 +551,7 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
             // 下一步按钮
             SizedBox(
               width: double.infinity,
-              height: 48.h,
+              height: 52.h, // 增加按钮高度
               child: ElevatedButton(
                 onPressed: isCompleted ? controller.completeSetup : null,
                 style: ElevatedButton.styleFrom(
@@ -500,12 +562,13 @@ class PrinterSetupPage extends GetView<DeviceSetupController> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
                   elevation: 0,
                 ),
                 child: Text(
                   '下一步',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

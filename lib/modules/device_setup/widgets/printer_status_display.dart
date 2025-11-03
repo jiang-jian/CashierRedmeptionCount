@@ -139,7 +139,7 @@ class PrinterStatusDisplay extends StatelessWidget {
             SizedBox(height: 6.h),
             _buildDetailRow('名称', detailInfo.printerName ?? '--'),
             SizedBox(height: 6.h),
-            _buildDetailRow('状态', detailInfo.printerStatus ?? '--'),
+            _buildDetailRow('状态', _formatStatusWithChinese(detailInfo.printerStatus ?? '--')),
             SizedBox(height: 6.h),
             _buildDetailRow('类型', detailInfo.printerType ?? '--'),
             SizedBox(height: 6.h),
@@ -255,7 +255,7 @@ class PrinterStatusDisplay extends StatelessWidget {
             SizedBox(height: 6.h),
             _buildDetailRow('名称', detailInfo.printerName ?? '--'),
             SizedBox(height: 6.h),
-            _buildDetailRow('状态', detailInfo.printerStatus ?? '--'),
+            _buildDetailRow('状态', _formatStatusWithChinese(detailInfo.printerStatus ?? '--')),
             SizedBox(height: 6.h),
             _buildDetailRow('类型', detailInfo.printerType ?? '--'),
             SizedBox(height: 6.h),
@@ -334,7 +334,7 @@ class PrinterStatusDisplay extends StatelessWidget {
             SizedBox(height: 6.h),
             _buildDetailRow('名称', detailInfo.printerName ?? '--'),
             SizedBox(height: 6.h),
-            _buildDetailRow('状态', detailInfo.printerStatus ?? '--'),
+            _buildDetailRow('状态', _formatStatusWithChinese(detailInfo.printerStatus ?? '--')),
             SizedBox(height: 6.h),
             _buildDetailRow('类型', detailInfo.printerType ?? '--'),
             SizedBox(height: 6.h),
@@ -402,5 +402,46 @@ class PrinterStatusDisplay extends StatelessWidget {
     }
 
     return message;
+  }
+
+  /// 格式化状态显示，添加中文说明
+  /// 格式：英文状态(中文说明)
+  String _formatStatusWithChinese(String englishStatus) {
+    if (englishStatus == '--' || englishStatus.isEmpty) {
+      return '--';
+    }
+
+    final upperStatus = englishStatus.toUpperCase();
+    String chineseDescription = '';
+
+    // 根据英文状态添加对应的中文说明
+    if (upperStatus.contains('READY')) {
+      chineseDescription = '准备就绪';
+    } else if (upperStatus.contains('ERR_PAPER_OUT') || upperStatus.contains('PAPER_OUT')) {
+      chineseDescription = '缺纸错误';
+    } else if (upperStatus.contains('ERR_PAPER_JAM') || upperStatus.contains('PAPER_JAM')) {
+      chineseDescription = '卡纸错误';
+    } else if (upperStatus.contains('ERR_PAPER_MISMATCH') || upperStatus.contains('PAPER_MISMATCH')) {
+      chineseDescription = '纸张不匹配错误';
+    } else if (upperStatus.contains('OFFLINE')) {
+      chineseDescription = '设备离线';
+    } else if (upperStatus.contains('COMM')) {
+      chineseDescription = '通信异常';
+    } else if (upperStatus.startsWith('ERR_')) {
+      chineseDescription = '设备错误';
+    } else if (upperStatus.startsWith('WARN_') || upperStatus.contains('WARNING')) {
+      chineseDescription = '设备警告';
+    } else if (upperStatus.contains('UNKNOWN')) {
+      chineseDescription = '状态未知';
+    } else if (upperStatus.contains('BUSY')) {
+      chineseDescription = '设备忙碌';
+    } else if (upperStatus.contains('STANDBY')) {
+      chineseDescription = '待机状态';
+    } else {
+      // 对于未识别的状态，不添加中文说明
+      return englishStatus;
+    }
+
+    return '$englishStatus($chineseDescription)';
   }
 }
